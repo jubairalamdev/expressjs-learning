@@ -67,7 +67,7 @@ app.get('/api/users', async(req:Request, res:Response)=> {
         const result = await pool.query(`
             SELECT * FROM users
         `)
-        res.status(200).json({
+        res.status(201).json({
             success: true,
             message: "Users retrived successfully!",
             data: result.rows,
@@ -89,13 +89,13 @@ app.get('/api/users/:id', async(req: Request, res:Response)=> {
         `, [id])
 
         if (result.rows.length === 0) {
-            res.status(500).json({
+            res.status(404).json({
             success: false,
             message: "User not found!",
             data: {},
         })
         } else {
-            res.status(200).json({
+            res.status(201).json({
                 success: true,
                 message: "User retrived successfully!",
                 data: result.rows[0],
