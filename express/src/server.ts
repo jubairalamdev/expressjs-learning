@@ -119,7 +119,13 @@ app.put('/api/users/:id', async(req:Request, res: Response)=> {
 
         const result = await pool.query(`
             UPDATE users 
-            SET name=$1, password=$2, age=$3, is_active=$4, updated_at=NOW()
+            SET 
+            name=COALESCE($1, name), 
+            password=COALESCE($2, password), 
+            age=COALESCE($3, age), 
+            is_active=COALESCE($4, is_active), 
+            updated_at=NOW()
+            
             WHERE id=$5
             RETURNING *
         `, [name, password, age, is_active, id])
@@ -147,6 +153,8 @@ app.put('/api/users/:id', async(req:Request, res: Response)=> {
         })
     }
 })
+
+
 
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`)
