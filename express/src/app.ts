@@ -1,11 +1,20 @@
 import express, { type Application, type Request, type Response } from "express"
-import { pool } from "./db"
 import { userRoute } from "./modules/user/user.route"
 import { profileRoute } from "./modules/profile/profile.route"
 import { authRoute } from "./modules/auth/auth.route"
 const app: Application = express()
+import fs from "fs"
 
 app.use(express.json())
+
+app.use((req, res, next)=>{
+    // console.log()
+    const log = `\nMethod -> ${req.method} - Time -> ${Date.now} - URL -> ${req.url}\n`
+    fs.appendFile('logger.txt', log, (err)=>{
+        console.log(err)
+    })
+    next()
+})
 
 app.get('/', (req: Request, res: Response) => {
     //   res.send('Hello World!')
