@@ -3,7 +3,6 @@ import { userRoute } from "./modules/user/user.route"
 import { profileRoute } from "./modules/profile/profile.route"
 import { authRoute } from "./modules/auth/auth.route"
 const app: Application = express()
-import fs from "fs"
 import { logger } from "./middleware/logger"
 
 app.use(express.json())
