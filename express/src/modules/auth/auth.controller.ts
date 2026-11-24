@@ -4,11 +4,20 @@ import { authService } from "./auth.serivce"
 const loginUser = async(req: Request, res: Response) => {
     try {
         
-        const accessToken = await authService.loginUserIntoDB(req.body)
+        const result = await authService.loginUserIntoDB(req.body)
+
+        const {refreshToken} = result;
+
+        res.cookie("refreshToken", refreshToken, {
+            secure:false,
+            httpOnly:true,
+            sameSite:'lax'
+        })
+
         res.status(200).json({
             success: true,
             message: "User logged in successfully!",
-            data: {accessToken}
+            data: result
         })
 
     } catch (error:any) {
